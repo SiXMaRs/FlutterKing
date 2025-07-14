@@ -9,8 +9,8 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
 
-  String? _selectedDepartment;
-  String? _gender;
+  String? selectedDepartment;
+  String? gender;
   DateTime? birthday;
   bool _acceptedTerms = false;
   String _statusMessage = '';
@@ -65,7 +65,7 @@ class _RegisterFormState extends State<RegisterForm> {
 
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(labelText: 'Department'),
-                value: _selectedDepartment,
+                value: selectedDepartment,
                 items: _departments.map((dept) {
                   return DropdownMenuItem(
                     value: dept,
@@ -74,7 +74,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    _selectedDepartment = value;
+                    selectedDepartment = value;
                   });
                 },
                 validator: (value) =>
@@ -87,14 +87,14 @@ class _RegisterFormState extends State<RegisterForm> {
               RadioListTile<String>(
                 title: Text('Male'),
                 value: 'Male',
-                groupValue: _gender,
-                onChanged: (value) => setState(() => _gender = value),
+                groupValue: gender,
+                onChanged: (value) => setState(() => gender = value),
               ),
               RadioListTile<String>(
                 title: Text('Female'),
                 value: 'Female',
-                groupValue: _gender,
-                onChanged: (value) => setState(() => _gender = value),
+                groupValue: gender,
+                onChanged: (value) => setState(() => gender = value),
               ),
               SizedBox(height: 16),
 
@@ -131,14 +131,28 @@ class _RegisterFormState extends State<RegisterForm> {
                   ElevatedButton(
                     onPressed: _register,
                     child: Text("Register"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      foregroundColor: Colors.white,
+                    ),
                   ),
                   SizedBox(width: 16),
                   ElevatedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text("Cancel"),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey),
+                  onPressed: () {
+                    setState(() {
+                      _nameController.clear();
+                      selectedDepartment = null;
+                      gender = null;
+                      birthday = null;
+                      _acceptedTerms = false;
+                      _statusMessage = '';
+                    });
+                  },
+                  child: Text("Cancel"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
                   ),
+                ),
                 ],
               ),
 
